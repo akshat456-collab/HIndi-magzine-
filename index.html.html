@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>हिंदी का डिजिटल स्वरूप | Digital Magazine</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Nirmala UI", "Mangal", Arial, sans-serif;
+    background: #f5f3ed;
+    color: #242424;
+    line-height: 1.8;
+}
+
+header {
+    min-height: 470px;
+    background: linear-gradient(120deg, #071b36, #123e63, #087e8b);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: "हिंदी";
+    position: absolute;
+    font-size: 250px;
+    color: rgba(255,255,255,0.05);
+    font-weight: bold;
+    animation: float 7s infinite alternate ease-in-out;
+}
+
+@keyframes float {
+    from { transform: translateY(-20px) rotate(-5deg); }
+    to { transform: translateY(30px) rotate(5deg); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content h1 {
+    font-size: clamp(35px, 6vw, 65px);
+    animation: appear 1.5s ease;
+}
+
+.hero-content p {
+    font-size: 19px;
+    margin-top: 15px;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.badge {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 9px 24px;
+    border: 1px solid white;
+    border-radius: 30px;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #071b36;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 12px;
+    box-shadow: 0 3px 12px #0002;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 17px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    background: #e7a83e;
+    color: #071b36;
+}
+
+section {
+    padding: 65px 8%;
+}
+
+.section-title {
+    text-align: center;
+    color: #123e63;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.intro {
+    max-width: 950px;
+    margin: auto;
+    text-align: center;
+    font-size: 18px;
+}
+
+.search-box {
+    max-width: 600px;
+    margin: 25px auto 35px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 2px solid #123e63;
+    border-radius: 30px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search-box input:focus {
+    box-shadow: 0 0 10px #123e6366;
+}
+
+.article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 18px #00000012;
+    border-top: 4px solid #e7a83e;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px #00000020;
+}
+
+.card h3 {
+    color: #123e63;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #555;
+    font-size: 15px;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 15px;
+    color: #087e8b;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.card a:hover {
+    color: #d18a17;
+}
+
+.article-section {
+    max-width: 1000px;
+    margin: 30px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px #0000000c;
+    scroll-margin-top: 90px;
+}
+
+.article-section h3 {
+    color: #087e8b;
+    font-size: 23px;
+    margin-bottom: 12px;
+}
+
+.article-section p {
+    text-align: justify;
+    margin-bottom: 12px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px #0002;
+    transition: 0.3s;
+}
+
+.gallery img:hover {
+    transform: scale(1.035);
+}
+
+.caption {
+    text-align: center;
+    margin-top: 10px;
+    color: #123e63;
+    font-weight: bold;
+}
+
+#lightbox {
+    display: none;
+    position: fixed;
+    z-index: 500;
+    inset: 0;
+    background: rgba(0,0,0,0.93);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#lightbox img {
+    max-width: 95%;
+    max-height: 85vh;
+    border-radius: 10px;
+}
+
+#closeLightbox {
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.summary-box {
+    background: linear-gradient(120deg, #071b36, #087e8b);
+    color: white;
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 1000px;
+    margin: auto;
+    text-align: center;
+    font-size: 18px;
+}
+
+.slogan {
+    margin-top: 25px;
+    color: #ffd77d;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.resources {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.resources a {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    color: #123e63;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: 0 4px 12px #00000012;
+    transition: 0.3s;
+}
+
+.resources a:hover {
+    background: #123e63;
+    color: white;
+    transform: translateY(-5px);
+}
+
+footer {
+    background: #071b36;
+    color: white;
+    text-align: center;
+    padding: 40px 15px;
+}
+
+footer .creator {
+    color: #ffd77d;
+    font-size: 23px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+footer .class-info {
+    font-size: 19px;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+footer .footer-line {
+    color: #b8d9e5;
+    font-size: 14px;
+}
+
+#noResults {
+    display: none;
+    text-align: center;
+    color: #a33;
+    margin: 20px;
+}
+
+@media(max-width:600px) {
+    nav a {
+        padding: 7px 10px;
+        font-size: 14px;
+    }
+
+    section {
+        padding: 45px 5%;
+    }
+
+    .article-section {
+        padding: 22px;
+    }
+
+    .summary-box {
+        padding: 25px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header id="home">
+    <div class="hero-content">
+        <p>विशेष डिजिटल संस्करण | 2026</p>
+        <h1>हिंदी का डिजिटल स्वरूप</h1>
+        <p>तकनीक के युग में हिंदी भाषा की नई पहचान</p>
+        <div class="badge">ज्ञान • तकनीक • संस्कृति • भविष्य</div>
+    </div>
+</header>
+
+<nav>
+    <a href="#home">होम</a>
+    <a href="#articles">लेख</a>
+    <a href="#gallery">गैलरी</a>
+    <a href="#summary">सारांश</a>
+    <a href="#explore">और जानें</a>
+</nav>
+
+<section>
+    <h2 class="section-title">हमारी डिजिटल पत्रिका में आपका स्वागत है</h2>
+    <div class="intro">
+        <p>
+        हिंदी हमारी संस्कृति, विचारों और अभिव्यक्ति की महत्वपूर्ण भाषा है।
+        आज इंटरनेट और आधुनिक तकनीक के माध्यम से हिंदी पूरी दुनिया में
+        नई पहचान बना रही है। इस डिजिटल पत्रिका में हम हिंदी के बदलते
+        स्वरूप और तकनीक के साथ उसके संबंध को समझेंगे।
+        </p>
+    </div>
+</section>
+
+<section id="articles">
+    <h2 class="section-title">📚 पत्रिका के प्रमुख लेख</h2>
+
+    <div class="search-box">
+        <input type="text" id="searchInput"
+        placeholder="🔍 लेख खोजें... जैसे हिंदी, इंटरनेट, AI">
+    </div>
+
+    <div class="article-grid" id="articleGrid">
+
+        <div class="card">
+            <h3>1. प्रस्तावना</h3>
+            <p>हिंदी भाषा का महत्व और आधुनिक युग में उसका स्थान।</p>
+            <a href="#a1">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>2. हिंदी का डिजिटल स्वरूप</h3>
+            <p>डिजिटल दुनिया में हिंदी भाषा का बदलता स्वरूप।</p>
+            <a href="#a2">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>3. प्रमुख डिजिटल माध्यम</h3>
+            <p>मोबाइल, कंप्यूटर, इंटरनेट और सोशल मीडिया।</p>
+            <a href="#a3">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>4. हिंदी टाइपिंग और तकनीक</h3>
+            <p>यूनिकोड, वॉइस टाइपिंग और हिंदी कीबोर्ड।</p>
+            <a href="#a4">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>5. डिजिटल हिंदी के लाभ</h3>
+            <p>शिक्षा, संचार और जानकारी प्राप्त करने में लाभ।</p>
+            <a href="#a5">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>6. चुनौतियाँ</h3>
+            <p>डिजिटल हिंदी के सामने आने वाली समस्याएँ।</p>
+            <a href="#a6">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>7. हिंदी का भविष्य</h3>
+            <p>आने वाले समय में हिंदी और तकनीक की संभावनाएँ।</p>
+            <a href="#a7">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>8. निष्कर्ष</h3>
+            <p>हिंदी के विकास में तकनीक की भूमिका।</p>
+            <a href="#a8">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>9. इंटरनेट पर हिंदी</h3>
+            <p>इंटरनेट पर हिंदी के बढ़ते महत्व की जानकारी।</p>
+            <a href="#a9">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>10. हिंदी और गूगल</h3>
+            <p>गूगल और ऑनलाइन सेवाओं का हिंदी में योगदान।</p>
+            <a href="#a10">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>11. डिजिटल पत्रकारिता</h3>
+            <p>समाचार और पत्रकारिता का डिजिटल विकास।</p>
+            <a href="#a11">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>12. डिजिटल साहित्य</h3>
+            <p>ई-पुस्तकें, ऑनलाइन कहानियाँ और कविताएँ।</p>
+            <a href="#a12">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>13. हिंदी और कृत्रिम बुद्धिमत्ता</h3>
+            <p>AI और हिंदी भाषा के बीच नया संबंध।</p>
+            <a href="#a13">पूरा पढ़ें →</a>
+        </div>
+
+        <div class="card">
+            <h3>14. हमारी जिम्मेदारी</h3>
+            <p>हिंदी भाषा के प्रचार-प्रसार में हमारी भूमिका।</p>
+            <a href="#a14">पूरा पढ़ें →</a>
+        </div>
+
+    </div>
+
+    <p id="noResults">क्षमा करें! इस शब्द से संबंधित कोई लेख नहीं मिला।</p>
+</section>
+
+<section id="fullArticles">
+    <h2 class="section-title">📝 लेखों का विस्तृत अध्ययन</h2>
+
+    <div class="article-section" id="a1">
+        <h3>1. प्रस्तावना</h3>
+        <p>
+        हिंदी भारत की प्रमुख भाषाओं में से एक है। यह हमारे विचारों,
+        भावनाओं और संस्कृति को व्यक्त करने का एक महत्वपूर्ण माध्यम है।
+        आधुनिक समय में तकनीक का तेजी से विकास हुआ है। इंटरनेट,
+        मोबाइल और कंप्यूटर ने हमारे जीवन को बदल दिया है।
+        अब हिंदी का प्रयोग केवल पुस्तकों और समाचार पत्रों तक सीमित
+        नहीं है, बल्कि डिजिटल दुनिया में भी इसका उपयोग तेजी से बढ़ रहा है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a2">
+        <h3>2. हिंदी का डिजिटल स्वरूप</h3>
+        <p>
+        डिजिटल स्वरूप का अर्थ है किसी भाषा का कंप्यूटर, मोबाइल और
+        इंटरनेट जैसे इलेक्ट्रॉनिक माध्यमों पर उपयोग। आज हम हिंदी में
+        संदेश लिख सकते हैं, ई-पुस्तकें पढ़ सकते हैं, वेबसाइट बना सकते हैं
+        और वीडियो देख सकते हैं। इससे हिंदी भाषा का प्रसार और अधिक
+        आसान हो गया है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a3">
+        <h3>3. हिंदी के प्रमुख डिजिटल माध्यम</h3>
+        <p>
+        हिंदी का प्रयोग अनेक डिजिटल माध्यमों में किया जाता है।
+        मोबाइल फोन, कंप्यूटर, सोशल मीडिया, ब्लॉग, वेबसाइट और
+        ऑनलाइन शिक्षा इसके प्रमुख उदाहरण हैं। इनके माध्यम से
+        लोग हिंदी में जानकारी प्राप्त कर सकते हैं और अपने विचार
+        दूसरों तक पहुँचा सकते हैं।
+        </p>
+    </div>
+
+    <div class="article-section" id="a4">
+        <h3>4. हिंदी टाइपिंग और तकनीक</h3>
+        <p>
+        पहले कंप्यूटर पर हिंदी लिखना कठिन माना जाता था, लेकिन
+        यूनिकोड तकनीक ने इसे सरल बना दिया है। हिंदी कीबोर्ड,
+        ऑनलाइन टाइपिंग टूल और वॉइस टाइपिंग की सहायता से
+        अब हिंदी में आसानी से लिखा जा सकता है। बोलकर लिखने की
+        सुविधा भी हिंदी के उपयोग को बढ़ावा देती है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a5">
+        <h3>5. हिंदी के डिजिटल स्वरूप के लाभ</h3>
+        <p>
+        डिजिटल हिंदी के अनेक लाभ हैं। इससे शिक्षा प्राप्त करना आसान
+        हुआ है। विद्यार्थी ऑनलाइन हिंदी में अध्ययन सामग्री पढ़ सकते हैं।
+        दूर बैठे लोगों से हिंदी में बातचीत की जा सकती है।
+        इसके अलावा डिजिटल माध्यमों से हिंदी साहित्य और संस्कृति
+        का प्रचार भी तेजी से हो रहा है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a6">
+        <h3>6. हिंदी के डिजिटल स्वरूप की चुनौतियाँ</h3>
+        <p>
+        हिंदी के डिजिटल विकास के सामने कुछ चुनौतियाँ भी हैं।
+        कई बार हिंदी में सही जानकारी उपलब्ध नहीं होती।
+        कुछ वेबसाइटों पर वर्तनी और भाषा की गलतियाँ मिलती हैं।
+        अंग्रेजी भाषा का अधिक प्रभाव भी हिंदी के शुद्ध प्रयोग को
+        प्रभावित करता है। हमें इन समस्याओं को दूर करने का प्रयास करना चाहिए।
+        </p>
+    </div>
+
+    <div class="article-section" id="a7">
+        <h3>7. भविष्य में हिंदी का डिजिटल स्वरूप</h3>
+        <p>
+        आने वाले समय में हिंदी का डिजिटल उपयोग और अधिक बढ़ेगा।
+        कृत्रिम बुद्धिमत्ता, मशीन अनुवाद, ऑनलाइन शिक्षा और
+        वॉइस असिस्टेंट जैसी तकनीकों से हिंदी का प्रयोग आसान होगा।
+        इससे दुनिया के अलग-अलग देशों के लोग भी हिंदी से जुड़ सकेंगे।
+        </p>
+    </div>
+
+    <div class="article-section" id="a8">
+        <h3>8. निष्कर्ष</h3>
+        <p>
+        हिंदी का डिजिटल स्वरूप आधुनिक तकनीक के विकास का
+        महत्वपूर्ण हिस्सा है। इंटरनेट और मोबाइल ने हिंदी को
+        नई पहचान दी है। हमें तकनीक का सही उपयोग करते हुए
+        अपनी भाषा का सम्मान करना चाहिए और उसके विकास में
+        योगदान देना चाहिए।
+        </p>
+    </div>
+
+    <div class="article-section" id="a9">
+        <h3>9. इंटरनेट पर हिंदी का बढ़ता महत्व</h3>
+        <p>
+        इंटरनेट ने हिंदी भाषा को एक नया मंच प्रदान किया है।
+        आज करोड़ों लोग इंटरनेट पर हिंदी में जानकारी खोजते हैं।
+        हिंदी में ब्लॉग, वेबसाइट, समाचार और शैक्षिक सामग्री
+        उपलब्ध है। इससे हिंदी भाषा का उपयोग देश-विदेश में बढ़ रहा है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a10">
+        <h3>10. हिंदी और गूगल का योगदान</h3>
+        <p>
+        गूगल ने हिंदी भाषा को डिजिटल दुनिया में आगे बढ़ाने में
+        महत्वपूर्ण योगदान दिया है। गूगल सर्च, गूगल ट्रांसलेट और
+        वॉइस टाइपिंग जैसी सुविधाओं से हिंदी में जानकारी खोजना,
+        समझना और लिखना आसान हुआ है। इन सेवाओं के कारण
+        अधिक लोग अपनी भाषा में इंटरनेट का उपयोग कर पा रहे हैं।
+        </p>
+    </div>
+
+    <div class="article-section" id="a11">
+        <h3>11. हिंदी पत्रकारिता का डिजिटल विकास</h3>
+        <p>
+        पहले लोग हिंदी समाचार पत्रों और रेडियो के माध्यम से
+        समाचार प्राप्त करते थे। आज ऑनलाइन समाचार वेबसाइट,
+        मोबाइल ऐप और सोशल मीडिया के माध्यम से हिंदी समाचार
+        तुरंत उपलब्ध हो जाते हैं। डिजिटल पत्रकारिता ने समाचार
+        पढ़ने और साझा करने के तरीके को बदल दिया है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a12">
+        <h3>12. हिंदी साहित्य का डिजिटल रूप</h3>
+        <p>
+        आज हिंदी की अनेक पुस्तकें, कहानियाँ, कविताएँ और उपन्यास
+        डिजिटल रूप में उपलब्ध हैं। ई-पुस्तकों और डिजिटल पुस्तकालयों
+        की सहायता से विद्यार्थी और पाठक कहीं भी हिंदी साहित्य पढ़ सकते हैं।
+        इससे साहित्य अधिक लोगों तक पहुँच रहा है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a13">
+        <h3>13. हिंदी और कृत्रिम बुद्धिमत्ता (AI)</h3>
+        <p>
+        कृत्रिम बुद्धिमत्ता यानी AI आधुनिक तकनीक का महत्वपूर्ण
+        हिस्सा है। AI की सहायता से हिंदी में अनुवाद, प्रश्नों के उत्तर,
+        लेखन और आवाज पहचानने जैसे कार्य किए जा सकते हैं।
+        इससे हिंदी भाषा का डिजिटल उपयोग और अधिक सरल हो रहा है।
+        </p>
+    </div>
+
+    <div class="article-section" id="a14">
+        <h3>14. हमारी जिम्मेदारी</h3>
+        <p>
+        हिंदी भाषा के विकास में हम सभी की जिम्मेदारी है।
+        हमें इंटरनेट पर सही और शुद्ध हिंदी का प्रयोग करना चाहिए।
+        हिंदी में लेख, कहानियाँ और उपयोगी जानकारी साझा करनी चाहिए।
+        हमें अपनी मातृभाषा का सम्मान करते हुए नई तकनीक को अपनाना चाहिए।
+        </p>
+        <p>
+        <strong>ज्ञान संदेश:</strong>
+        तकनीक का करें सही उपयोग, हिंदी को दें डिजिटल युग में नया स्वरूप।
+        </p>
+    </div>
+</section>
+
+<section id="gallery">
+    <h2 class="section-title">🖼️ चित्र दीर्घा</h2>
+
+    <div class="gallery">
+        <div>
+            <img src="images/4.png"
+            alt="हिंदी डिजिटल पत्रिका चित्र 1"
+            onclick="openImage(this)">
+            <p class="caption">हिंदी और डिजिटल दुनिया</p>
+        </div>
+
+        <div>
+            <img src="images/5.png"
+            alt="हिंदी डिजिटल पत्रिका चित्र 2"
+            onclick="openImage(this)">
+            <p class="caption">तकनीक के साथ हिंदी का विकास</p>
+        </div>
+    </div>
+</section>
+
+<div id="lightbox" onclick="closeImage()">
+    <span id="closeLightbox">&times;</span>
+    <img id="largeImage" src="" alt="बड़ा चित्र">
+</div>
+
+<section id="summary">
+    <h2 class="section-title">📖 परियोजना का सारांश</h2>
+
+    <div class="summary-box">
+        <p>
+        हिंदी का डिजिटल स्वरूप आधुनिक तकनीक के विकास का एक महत्वपूर्ण
+        हिस्सा है। इंटरनेट, मोबाइल, कंप्यूटर और सोशल मीडिया ने हिंदी
+        भाषा को एक नया मंच प्रदान किया है। आज हिंदी का प्रयोग ऑनलाइन
+        शिक्षा, डिजिटल पुस्तकालयों, समाचार, वेबसाइटों और कृत्रिम
+        बुद्धिमत्ता (AI) में भी किया जा रहा है। यूनिकोड और वॉइस टाइपिंग
+        जैसी तकनीकों ने हिंदी में लिखना और पढ़ना आसान बना दिया है।
+        डिजिटल माध्यमों से हिंदी का प्रचार-प्रसार पूरी दुनिया में हो रहा है।
+        हमें आधुनिक तकनीक के साथ अपनी भाषा को अपनाना चाहिए और
+        हिंदी के विकास में योगदान देना चाहिए।
+        </p>
+
+        <div class="slogan">
+            तकनीक के साथ बढ़ाएँ कदम,<br>
+            हिंदी का करें सम्मान हरदम।
+        </div>
+    </div>
+</section>
+
+<section id="explore">
+    <h2 class="section-title">🌐 और जानें</h2>
+
+    <div class="resources">
+        <a href="https://hi.wikipedia.org/" target="_blank">
+            हिंदी विकिपीडिया ↗
+        </a>
+
+        <a href="https://translate.google.com/" target="_blank">
+            गूगल अनुवाद ↗
+        </a>
+
+        <a href="https://epathshala.nic.in/" target="_blank">
+            ई-पाठशाला ↗
+        </a>
+
+        <a href="https://www.gutenberg.org/" target="_blank">
+            प्रोजेक्ट गुटेनबर्ग ↗
+        </a>
+    </div>
+</section>
+
+<footer>
+    <p>हिंदी भाषा • भारतीय संस्कृति • डिजिटल भविष्य</p>
+    <br>
+
+    <div class="creator">
+        Designed &amp; Created by Akshat Raj
+    </div>
+
+    <div class="class-info">
+        Class: 8-E
+    </div>
+
+    <p class="footer-line">
+        © 2026 | Hindi Digital Magazine
+    </p>
+</footer>
+
+<script>
+
+// ARTICLE SEARCH
+const searchInput = document.getElementById("searchInput");
+const cards = document.querySelectorAll(".card");
+const noResults = document.getElementById("noResults");
+
+searchInput.addEventListener("input", function() {
+    const searchText = this.value.toLowerCase().trim();
+    let visibleCount = 0;
+
+    cards.forEach(function(card) {
+        const text = card.innerText.toLowerCase();
+
+        if (text.includes(searchText)) {
+            card.style.display = "block";
+            visibleCount++;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    noResults.style.display = visibleCount === 0 ? "block" : "none";
+});
+
+// IMAGE VIEWER
+function openImage(img) {
+    document.getElementById("lightbox").style.display = "flex";
+    document.getElementById("largeImage").src = img.src;
+}
+
+function closeImage() {
+    document.getElementById("lightbox").style.display = "none";
+}
+
+// CLOSE IMAGE WITH ESCAPE KEY
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closeImage();
+    }
+});
+
+</script>
+
+</body>
+</html>
